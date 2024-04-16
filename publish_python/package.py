@@ -14,8 +14,11 @@ def get_package_name_and_version():
         raise RuntimeError(
             "Must be invoked in a directory containing a 'setup.py' file")
     output = subprocess.check_output(
-        [sys.executable, 'setup.py', '--name', '--version'])
+        [sys.executable, 'setup.py', '--fullname', '--version'])
     lines = output.decode('ascii').splitlines()
     assert len(lines) == 2
     Package = namedtuple('Package', ['name', 'version'])
-    return Package(lines[0], lines[1])
+    fullname = lines[0]
+    version = lines[1]
+    name = fullname[:-len(version) - 1]
+    return Package(name, version)
