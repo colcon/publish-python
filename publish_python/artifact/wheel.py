@@ -15,11 +15,11 @@ def create_wheel(*, config):
     print('\n-- Building sdist and bdist_wheel artifacts of package '
           f"'{pkg.name}' {pkg.version} ...")
 
-    cmd = [sys.executable, 'setup.py', 'sdist', 'bdist_wheel']
+    cmd = [sys.executable, '-m', 'build']
     print('$', *cmd)
     subprocess.check_call(cmd)
 
-    tarball = f'dist/{pkg.name}-{pkg.version}.tar.gz'
+    tarball = f'dist/{pkg.name.replace("-", "_")}-{pkg.version}.tar.gz'
     assert os.path.exists(tarball), \
         f"Failed to generate source tarball '{tarball}'"
 
